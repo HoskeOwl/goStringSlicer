@@ -1,9 +1,10 @@
 # goStringSlicer
 Fast and memory-frendly string slicer
 
-## peculiarities
-- O(n) algorithm for slicing string by rune indexes.
-- Do not use additional memory (just for returning slice).
+## Description
+- indexing by letters
+- O(n) 
+- Do not use additional memory (just for result)
 - Support negative indexes
 
 ## examples
