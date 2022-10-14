@@ -19,6 +19,9 @@ func SliceString(data string, begin, end int) (string, error) {
 	if end < 0 {
 		end = runeLen + end
 	}
+	if begin == end {
+		return "", nil
+	}
 
 	// process error cases
 	if begin > runeLen || begin < 0 {
