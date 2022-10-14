@@ -20,6 +20,7 @@ func TestSlicingOk(t *testing.T) {
 		{-6, -3}: "bcd",
 		{-7, -6}: "a",
 		{-7, -7}: "",
+		{-7, 0}:  "",
 	}
 
 	var res string

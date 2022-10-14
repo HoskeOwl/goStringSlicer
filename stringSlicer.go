@@ -9,9 +9,6 @@ import (
 // end index will not be include.
 func SliceString(data string, begin, end int) (string, error) {
 	// end - symbol to (not included)
-	if begin == end {
-		return "", nil
-	}
 	runeLen := utf8.RuneCountInString(data)
 	var byteBegin, byteEnd int = -1, -1
 
@@ -54,14 +51,14 @@ func SliceString(data string, begin, end int) (string, error) {
 
 	// check if some index did not set
 	if byteBegin < 0 {
-		return "", nil
+		return "", fmt.Errorf("Internal error: begin byte index did not found")
 	}
 	if byteEnd < 0 {
 		byteEnd = len(data)
 	}
 
 	if byteBegin > byteEnd {
-		return "", fmt.Errorf("Internal error: begin byte index bugger than end byte index")
+		return "", fmt.Errorf("Internal error: begin byte index bigger than end byte index")
 	}
 	return data[byteBegin:byteEnd], nil
 }
