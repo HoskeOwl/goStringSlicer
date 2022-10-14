@@ -13,6 +13,7 @@ const (
 	mediumEnd   int = 18
 	largeBegin  int = 10
 	largeEnd    int = 120
+	largeEqual  int = 760
 )
 
 func BenchmarkSmallSliceThroughRunes(b *testing.B) {
@@ -54,5 +55,11 @@ func BenchmarkLargeSliceThroughRunes(b *testing.B) {
 func BenchmarkLargeSliceWithFunction(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		_, _ = SliceString(exampleLarge, largeBegin, largeEnd)
+	}
+}
+
+func BenchmarkLargeSliceWithFunctionEqualIndexes(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_, _ = SliceString(exampleLarge, largeEqual, largeEqual)
 	}
 }

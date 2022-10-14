@@ -9,6 +9,9 @@ import (
 // end index will not be include.
 func SliceString(data string, begin, end int) (string, error) {
 	// end - symbol to (not included)
+	if begin == end {
+		return "", nil
+	}
 	runeLen := utf8.RuneCountInString(data)
 	var byteBegin, byteEnd int = -1, -1
 
