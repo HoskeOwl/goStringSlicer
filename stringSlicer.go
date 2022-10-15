@@ -7,11 +7,15 @@ import (
 
 // slice string by runes. begin - start rune index for slice. end - end rune index to slice.
 // end index will not be include.
-func SliceString(data string, begin, end int) (string, error) {
+func SliceStringNegative(data string, begin, end int) (string, error) {
+	if begin == end {
+		return "", nil
+	}
 	// end - symbol to (not included)
 	runeLen := utf8.RuneCountInString(data)
 	var byteBegin, byteEnd int = -1, -1
 
+	// transform to plain sequence
 	// transform to plain sequence
 	if begin < 0 {
 		begin = runeLen + begin
@@ -24,10 +28,10 @@ func SliceString(data string, begin, end int) (string, error) {
 	}
 
 	// process error cases
-	if begin > runeLen || begin < 0 {
+	if begin < 0 || begin > runeLen {
 		return "", fmt.Errorf("Index %v out of range: rune length = %v", begin, runeLen)
 	}
-	if end > runeLen || end < 0 {
+	if end < 0 || end > runeLen {
 		return "", fmt.Errorf("Index %v out of range: rune length = %v", end, runeLen)
 	}
 	if begin > end {
@@ -49,16 +53,60 @@ func SliceString(data string, begin, end int) (string, error) {
 		i += 1
 	}
 
-	// check if some index did not set
-	if byteBegin < 0 {
-		return "", fmt.Errorf("Internal error: begin byte index did not found")
-	}
 	if byteEnd < 0 {
 		byteEnd = len(data)
 	}
 
 	if byteBegin > byteEnd {
-		return "", fmt.Errorf("Internal error: begin byte index bigger than end byte index")
+		return "", fmt.Errorf("Internal error: begin byte index bugger than end byte index")
 	}
 	return data[byteBegin:byteEnd], nil
+}
+
+// slice string by runes. begin - start rune index for slice. end - end rune index to slice.
+// end index will not be include.
+func SliceStringPositive(data string, begin, end int) (string, error) {
+	if begin > end {
+		return "", fmt.Errorf("Start of slice bigger than end")
+	}
+	if begin == end {
+		return "", nil
+	}
+	var byteBegin, byteEnd int = -1, -1
+
+	// calc byte indexes
+	runeLen := 0
+	for byteIdx := range data {
+		if runeLen == begin {
+			byteBegin = byteIdx
+		}
+		if runeLen == end {
+			byteEnd = byteIdx
+		}
+		if runeLen > end {
+			break
+		}
+		runeLen += 1
+	}
+
+	// process error cases
+	if begin > runeLen {
+		return "", fmt.Errorf("Index %v out of range: rune length = %v", begin, runeLen)
+	}
+	if end > runeLen {
+		return "", fmt.Errorf("Index %v out of range: rune length = %v", end, runeLen)
+	}
+
+	if byteEnd < 0 {
+		byteEnd = len(data)
+	}
+
+	return data[byteBegin:byteEnd], nil
+}
+
+func SliceString(data string, begin, end int) (string, error) {
+	if begin > 0 && end > 0 {
+		return SliceStringPositive(data, begin, end)
+	}
+	return SliceStringNegative(data, begin, end)
 }

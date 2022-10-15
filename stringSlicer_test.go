@@ -6,7 +6,7 @@ import (
 
 var exampleString string = "abcdefg"
 
-func TestSlicingOk(t *testing.T) {
+func TestSlicingPositiveOk(t *testing.T) {
 	var testVals map[[2]int]string = map[[2]int]string{
 		{0, 0}: "",
 		{0, 1}: "a",
