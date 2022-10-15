@@ -5,7 +5,7 @@ Fast and memory-frendly string slicer
 - indexing by letters
 - O(n) 
 - Do not use additional memory (just for result)
-- Support negative indexes
+- Support negative indexes (! For negative indexing 0(2n) !)
 
 ## examples
 ```
